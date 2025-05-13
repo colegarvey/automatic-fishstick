@@ -1,10 +1,11 @@
-import numpy as np
-import pandas as pd
+# import numpy as np
+# import pandas as pd
 from pos import Position
 
 class TradingAcct:
-    def __init__(self, data: dict, positions: list):
+    def __init__(self, data: dict, assets: dict):
         '''
+        Mock portfolio 
         (Args) 
             data: dict containing account data from the trading client 
         '''
@@ -18,13 +19,21 @@ class TradingAcct:
         self.portfolio_value = data.portfolio_value
         self.status = data.status
 
-        self.positions = []
+        self.positions = {} # symbol : obj
+        self.history = {} # date : value
 
 
     def update(self, new_data):
         self.__init__(new_data)
 
     
-    def allocatePositions(self):
+    def allocatePositions(self, asset_data):
+        # current price or market_value, qty or qty_available
+        for item in asset_data:
+            # sym = item.
+            # qty = item.
 
-    # make moving average method to analyze a position
+            data = {'symbol': sym, 'qty': qty}
+            self.positions[sym] = Position(data)
+
+    
