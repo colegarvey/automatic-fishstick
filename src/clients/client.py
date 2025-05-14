@@ -8,11 +8,9 @@ def getTradingClient():
         trading_client = TradingClient(api_key=API_KEY, secret_key=SECRET_KEY)
     except Exception as e:
         print(f"Error initializing the TradingClient: {e}")
-        alias = None
-    else:
-        alias = trading_client
-    finally:
-        return alias 
+        return None
+
+    return trading_client 
     
 
 def getDataClient():
@@ -21,8 +19,6 @@ def getDataClient():
         stock_data_client = StockHistoricalDataClient(api_key=API_KEY, secret_key=SECRET_KEY)
     except Exception as e:
         print(f"Error initializing the StockHistoricalDataClient: {e}")
-        alias = None
-    else:
-        alias = stock_data_client
-    finally:
-        return alias 
+        return None
+
+    return stock_data_client 
