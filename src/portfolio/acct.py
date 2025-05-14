@@ -1,9 +1,8 @@
-# import numpy as np
-# import pandas as pd
-from pos import Position
+
+from portfolio.pos import Position
 
 class TradingAcct:
-    def __init__(self, data: dict, assets: dict):
+    def __init__(self, data: dict):
         '''
         Mock portfolio 
         (Args) 
@@ -27,13 +26,14 @@ class TradingAcct:
         self.__init__(new_data)
 
     
-    def allocatePositions(self, asset_data):
+    def allocatePositions(self, asset_data: list):
         # current price or market_value, qty or qty_available
         for item in asset_data:
-            # sym = item.
-            # qty = item.
+            symbol = item.symbol
+            price = item.current_price
+            qty = item.qty
 
-            data = {'symbol': sym, 'qty': qty}
-            self.positions[sym] = Position(data)
+            data = {'symbol': symbol, 'price': price, 'qty': qty}
+            self.positions[symbol] = Position(data)
 
     

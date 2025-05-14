@@ -1,8 +1,8 @@
 from src.config import API_KEY, SECRET_KEY
-import alpaca
+
 # from alpaca.data.historical.option import OptionHistoricalDataClient, OptionLatestQuoteRequest
-from alpaca.data.historical.stock import StockHistoricalDataClient
-from alpaca.data.requests import StocklatestQuoteRequest
+from alpaca.data.requests import StockLatestQuoteRequest, StockBarsRequest
+from alpaca.data.timeframe import TimeFrame
 
 
 try:
