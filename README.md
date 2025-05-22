@@ -18,4 +18,4 @@ Main
 - choose between stratgies 
 
 
-train NN model to optimize account and position performance measures
+train model to optimize account and position performance measures

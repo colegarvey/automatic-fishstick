@@ -1,7 +1,7 @@
 # import numpy as np
 import pandas as pd
 from datetime import datetime #, timedelta
-from trade.data import getOneStockData, getManyStockData
+from trade.data import getStockData
 
 class Position:
     def __init__(self, data: dict):
@@ -9,7 +9,7 @@ class Position:
         self.latest_price = float(data['price'])
         self.qty = float(data['qty'])
         self.total_value = self.latest_price * self.qty
-        self.history = pd.DataFrame([])
+        self.history = None
 
 
     def update(self, new_data: dict):
@@ -26,14 +26,22 @@ class Position:
         # ema = value * 
 
 
-    def populateHistory(self, start=datetime(25,1,1)):
+    def populateHistory(self, start=datetime(2025,5,1)):
         '''
         Take in bar data and populate the position history
         '''
-        data = getOneStockData(self.symbol, start)
+        data = getStockData(self.symbol, start)
+        if data is None:
+            print(f"No data returned for symbol {self.symbol}")
+            return
 
-        for item in data:
-            self.history = pd.concat([self.history, pd.DataFrame([dict(item)])], ignore_index=True)
+        try:
+            rows = [item.__dict__ for item in data]
+        except Exception as e:
+            print(f"Error converting bar data to dict for {self.symbol}: {e}")
+            return
         
-        self.history.drop(columns=['symbol','trade_count','vwap'], axis=1, inplace=True)
-        self.history['timestamp'] = self.history['timestamp'].dt.date
+        self.history = pd.DataFrame(rows)       
+
+        self.history.drop(columns=['symbol','trade_count','vwap'], axis=1, inplace=True, errors='ignore')
+        self.history['timestamp'] = pd.to_datetime(self.history['timestamp']).dt.date

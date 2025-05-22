@@ -1,5 +1,7 @@
 
 from portfolio.pos import Position
+from clients.client import getTradingClient
+
 
 class TradingAcct:
     def __init__(self, data: dict):
@@ -35,5 +37,20 @@ class TradingAcct:
 
             data = {'symbol': symbol, 'price': price, 'qty': qty}
             self.positions[symbol] = Position(data)
+            self.positions[symbol].populateHistory()
 
+def accountSetup():
+    client = getTradingClient()
+
+    if client is not None:
+        # Setup user portfolio
+        account_data = client.get_account()
+        account_assets = client.get_all_positions()
+
+        # Setup user account
+        Acct = TradingAcct(account_data)
+        Acct.allocatePositions(account_assets)
+
+    else: Acct = None
     
+    return Acct
