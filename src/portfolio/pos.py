@@ -26,7 +26,7 @@ class Position:
         # ema = value * 
 
 
-    def populateHistory(self, start=datetime(2025,5,1)):
+    def populateHistory(self, start=datetime(2020,1,1)):
         '''
         Take in bar data and populate the position history
         '''
@@ -43,5 +43,11 @@ class Position:
         
         self.history = pd.DataFrame(rows)       
 
-        self.history.drop(columns=['symbol','trade_count','vwap'], axis=1, inplace=True, errors='ignore')
-        self.history['timestamp'] = pd.to_datetime(self.history['timestamp']).dt.date
+        # Format date into multiple numeric columns
+        self.history['timestamp'] = pd.to_datetime(self.history['timestamp'])
+        self.history['year'] = self.history['timestamp'].dt.year
+        self.history['month'] = self.history['timestamp'].dt.month
+        self.history['day'] = self.history['timestamp'].dt.day
+
+        # Drop unnecessary columns
+        self.history.drop(columns=['symbol','trade_count','vwap','timestamp'], axis=1, inplace=True, errors='ignore')
